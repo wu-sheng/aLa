@@ -22,6 +22,10 @@ public class Bootstrap {
         }
     }
 
+    public static void defaultBoot() throws ServletException, LifecycleException {
+        Bootstrap.boot(19780);
+    }
+
     public static void main(String[] args) throws ServletException, LifecycleException {
         Bootstrap.boot(19780);
     }
