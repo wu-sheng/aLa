@@ -7,6 +7,7 @@ import com.a.eye.ala.core.uti.ExceptionToResponse;
 
 import java.io.File;
 import java.io.IOException;
+import java.net.URISyntaxException;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
@@ -24,13 +25,11 @@ public class LinkToService {
         if (!SERVICE_CACHE.containsKey(serviceName)) {
             GroovyClassLoader classLoader = new GroovyClassLoader(Thread.currentThread().getContextClassLoader());
 
-            String basePath = LinkToService.class.getResource("/").getPath();
-            File sourceFile = new File(basePath, serviceName + ".groovy");
             try {
+                String basePath = System.getProperty("service.basepath","/tmp/service");
+                File sourceFile = new File(basePath, serviceName + ".groovy");
                 Class dynamicClass = classLoader.parseClass(new GroovyCodeSource(sourceFile));
-
                 GroovyObject dynamicInstance = (GroovyObject) dynamicClass.newInstance();//proxy
-
                 SERVICE_CACHE.put(serviceName, dynamicInstance);
             } catch (IOException e) {
                 return ExceptionToResponse.getResponse("load groovy for service[" + serviceName + "] failure", e);
@@ -42,7 +41,10 @@ public class LinkToService {
         }
 
         GroovyObject dynamicInstance = SERVICE_CACHE.get(serviceName);
-
-        return (String) dynamicInstance.invokeMethod("doService", params);
+        try {
+            return (String) dynamicInstance.invokeMethod("doService", params);
+        }catch (Throwable e){
+            return ExceptionToResponse.getResponse("invoke groovy for service[" + serviceName + "] failure", e);
+        }
     }
 }

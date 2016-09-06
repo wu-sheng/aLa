@@ -15,7 +15,7 @@ public class SpringContextAware implements ApplicationContextAware{
         SpringContextAware.applicationContext = applicationContext;
     }
 
-    public ApplicationContext getApplicationContext(){
+    public static ApplicationContext getApplicationContext(){
         return SpringContextAware.applicationContext;
     }
 }

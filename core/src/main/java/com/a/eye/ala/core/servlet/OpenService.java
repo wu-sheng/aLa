@@ -21,11 +21,10 @@ public class OpenService extends HttpServlet {
 
     @Override
     public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
+        response.setContentType("text/html;charset=utf-8");
         String serviceName = getServiceName(request.getRequestURI());
-
         LinkToService service = new LinkToService();
         String responseBody = service.doService(serviceName, request.getParameter("args"), true);
-
         PrintWriter writer = response.getWriter();
         writer.print(responseBody);
         writer.flush();

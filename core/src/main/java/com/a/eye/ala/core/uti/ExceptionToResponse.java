@@ -9,7 +9,7 @@ import java.io.StringWriter;
  * Created by wusheng on 16/9/5.
  */
 public class ExceptionToResponse {
-    public static String getResponse(String msg, Exception e) {
+    public static String getResponse(String msg, Throwable e) {
         JsonObject exceptionMsg = new JsonObject();
         exceptionMsg.addProperty("code", 500);
         exceptionMsg.addProperty("msg", msg);

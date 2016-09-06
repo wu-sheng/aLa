@@ -13,31 +13,29 @@
     <packaging>jar</packaging>
 
     <properties>
-        <project.build.tomcat7.embed.version>7.0.70</project.build.tomcat7.embed.version>
+        <project.build.jetty.embed.version>9.3.0.M2</project.build.jetty.embed.version>
+        <project.asm.version>3.3.1</project.asm.version>
+        <project.javax.annotation.version>1.2</project.javax.annotation.version>
         <project.groovy.version>2.4.6</project.groovy.version>
         <project.gson.version>2.6.2</project.gson.version>
     </properties>
 
     <dependencies>
         <dependency>
-            <groupId>org.apache.tomcat.embed</groupId>
-            <artifactId>tomcat-embed-core</artifactId>
-            <version>${project.build.tomcat7.embed.version}</version>
+            <groupId>org.eclipse.jetty.aggregate</groupId>
+            <artifactId>jetty-all</artifactId>
+            <version>${project.build.jetty.embed.version}</version>
         </dependency>
         <dependency>
-            <groupId>org.apache.tomcat</groupId>
-            <artifactId>tomcat-util</artifactId>
-            <version>${project.build.tomcat7.embed.version}</version>
+            <groupId>asm</groupId>
+            <artifactId>asm</artifactId>
+            <version>${project.asm.version}</version>
         </dependency>
+
         <dependency>
-            <groupId>org.apache.tomcat.embed</groupId>
-            <artifactId>tomcat-embed-jasper</artifactId>
-            <version>${project.build.tomcat7.embed.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>org.apache.tomcat.embed</groupId>
-            <artifactId>tomcat-embed-logging-juli</artifactId>
-            <version>${project.build.tomcat7.embed.version}</version>
+            <groupId>javax.annotation</groupId>
+            <artifactId>javax.annotation-api</artifactId>
+            <version>${project.javax.annotation.version}</version>
         </dependency>
 
         <dependency>
@@ -79,12 +77,16 @@
                             <shadeSourcesContent>true</shadeSourcesContent>
                             <relocations>
                                 <relocation>
-                                    <pattern>org.apache</pattern>
-                                    <shadedPattern>com.a.eye.ala.core.dependencies.org.apache</shadedPattern>
+                                    <pattern>org.eclipse.jetty.aggregate</pattern>
+                                    <shadedPattern>com.a.eye.ala.core.dependencies.org.eclipse.jetty.aggregate</shadedPattern>
                                 </relocation>
                                 <relocation>
-                                    <pattern>org.codehaus</pattern>
-                                    <shadedPattern>com.a.eye.ala.core.dependencies.org.codehaus</shadedPattern>
+                                    <pattern>org.objectweb.asm</pattern>
+                                    <shadedPattern>com.a.eye.ala.core.dependencies.org.objectweb.asm</shadedPattern>
+                                </relocation>
+                                <relocation>
+                                    <pattern>javax.annotation</pattern>
+                                    <shadedPattern>com.a.eye.ala.core.dependencies.javax.annotation</shadedPattern>
                                 </relocation>
                                 <relocation>
                                     <pattern>com.google</pattern>
@@ -94,6 +96,14 @@
                         </configuration>
                     </execution>
                 </executions>
+            </plugin>
+            <plugin>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <configuration>
+                    <source>1.7</source>
+                    <target>1.7</target>
+                    <encoding>${project.build.sourceEncoding}</encoding>
+                </configuration>
             </plugin>
         </plugins>
     </build>
